@@ -9,10 +9,7 @@ var getVariablesBuffer = function(sassVariables, file) {
   var str = '';
 
   for(var variable in sassVariables) {
-    console.log('---', sassVariables[variable]);
-
     str += '$' + variable + ': ' + sassVariables[variable] + ';\n';
-    console.log(str);
   }
 
 

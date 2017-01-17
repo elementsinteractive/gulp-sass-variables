@@ -1,17 +1,20 @@
-'use strict';
 
-const PLUGIN_NAME = 'gulp-sass-variables';
+var PLUGIN_NAME = 'gulp-sass-variables';
 
-let gutil = require('gulp-util'),
+var gutil = require('gulp-util'),
     PluginError = gutil.PluginError,
     through = require('through2');
 
-let getVariablesBuffer = function(sassVariables, file) {
-  let str = '';
-  
-  for(let variable in sassVariables) {
-    str += variable + ': ' + JSON.stringify(sassVariables[variable]) + ';\n';
+var getVariablesBuffer = function(sassVariables, file) {
+  var str = '';
+
+  for(var variable in sassVariables) {
+    console.log('---', sassVariables[variable]);
+
+    str += '$' + variable + ': ' + sassVariables[variable] + ';\n';
+    console.log(str);
   }
+
 
   return new Buffer(str, file);
 }
@@ -29,7 +32,7 @@ module.exports = function(sassVariables) {
     }
 
     if(sassVariables && typeof sassVariables === 'object') {
-      let variablesBuffer = getVariablesBuffer(sassVariables, file);
+      var variablesBuffer = getVariablesBuffer(sassVariables, file);
       file.contents = Buffer.concat([variablesBuffer, file.contents], variablesBuffer.length + file.contents.length);
     } else {
       return cb(new PluginError(PLUGIN_NAME, 'Variables object expected'));
